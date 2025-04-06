@@ -32,18 +32,30 @@ namespace Assets.Scripts
             var moveX = Input.GetAxis("Horizontal");
             var moveZ = Input.GetAxis("Vertical");
 
-            var move = transform.right * moveX + transform.forward * moveZ;
-
-            if (move.magnitude >= 0.1f)
+            var move           = transform.right * moveX + transform.forward * moveZ;
+            var inputDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            
+            if (inputDirection.sqrMagnitude >= 0.01f)
             {
                 // Rotate toward movement direction
-                var targetRotation = Quaternion.LookRotation(move);
+                var targetRotation = Quaternion.LookRotation(inputDirection);
                 transform.rotation = Quaternion.Slerp(transform.rotation
                                                     , targetRotation
                                                     , RotationSpeed * Time.deltaTime);
             }
 
-            _controller.Move(move * MoveSpeed * Time.deltaTime);
+            _controller.Move(inputDirection.normalized * MoveSpeed * Time.deltaTime);
+
+            //if (move.magnitude >= 0.1f)
+            //{
+            //    // Rotate toward movement direction
+            //    var targetRotation = Quaternion.LookRotation(move);
+            //    transform.rotation = Quaternion.Slerp(transform.rotation
+            //                                        , targetRotation
+            //                                        , RotationSpeed * Time.deltaTime);
+            //}
+
+            //_controller.Move(move * MoveSpeed * Time.deltaTime);
 
             // Jumping
             if (_isGrounded
