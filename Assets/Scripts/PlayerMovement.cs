@@ -13,10 +13,12 @@ namespace Assets.Scripts
         private CharacterController _controller;
         private Vector3             _velocity;
         private bool                _isGrounded;
+        private Animator            _animator;
 
         private void Start()
         {
             _controller = GetComponent<CharacterController>();
+            _animator   = GetComponent<Animator>();
         }
 
         private void Update()
@@ -59,8 +61,9 @@ namespace Assets.Scripts
 
             // Jumping
             if (_isGrounded
-            && Input.GetButtonDown("Jump"))
+            && Input.GetButtonDown(Constants.JumpButton))
             {
+                _animator.SetTrigger(Constants.JumpingTrigger);
                 _velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
             }
 

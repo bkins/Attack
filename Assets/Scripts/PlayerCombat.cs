@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -9,12 +11,19 @@ namespace Assets.Scripts
 
         public LayerMask EnemyLayers;
 
+        private Animator _animator;
+
+        private void Start()
+        {
+            _animator = GetComponent<Animator>();
+        }
+
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                Attack();
-            }
+            if ( ! Input.GetKeyDown(Constants.AttackButton)) return;
+
+            _animator.SetTrigger(Constants.AttackTrigger);
+            Attack();
         }
 
         private void Attack()
