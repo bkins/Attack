@@ -13,5 +13,12 @@ namespace Assets
         public static string  JumpingTrigger = "JumpingTrigger";
         public static string  JumpButton     = "Jump";
         public static KeyCode AttackButton   = KeyCode.F;
+
+        public enum Buttons
+        {
+            Attack  = KeyCode.F
+          , Jumping = KeyCode.G
+        };
     }
+
 }

@@ -33,17 +33,24 @@ namespace Assets.Scripts
                                                  , AttackRange
                                                  , EnemyLayers);
 
+            SetStats(hitEnemies);
+
+            Debug.Log("Player attacked!");
+        }
+
+        private CharacterStats SetStats(Collider[] hitEnemies)
+        {
             foreach (var enemy in hitEnemies)
             {
                 var stats = enemy.GetComponent<CharacterStats>();
 
-                if (stats != null)
-                {
-                    stats.TakeDamage(AttackDamage);
-                }
+                if (stats == null) return stats;
+
+                stats.TakeDamage(AttackDamage);
+                return stats;
             }
 
-            Debug.Log("Player attacked!");
+            return null;
         }
 
         private void OnDrawGizmosSelected()
