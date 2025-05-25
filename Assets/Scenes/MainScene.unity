@@ -857,12 +857,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ddd631cd88c4d3428d76196be220d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 8286401857196373409, guid: f2875beb52540354a82a50f6682ed0cf, type: 3}
+  EnemyTypes:
+  - Prefab: {fileID: 8286401857196373409, guid: f2875beb52540354a82a50f6682ed0cf, type: 3}
+    SpawnInterval: 5
+    MoveSpeed: 5
+  - Prefab: {fileID: 8286401857196373409, guid: 1afe9de0040e0c34389d1c6cd39bc1e2, type: 3}
+    SpawnInterval: 10
+    MoveSpeed: 10
   Player: {fileID: 2000713652}
-  SpawnInterval: 3
   SpawnRadius: 10
   MinSpawnDistance: 3
-  MoveSpeed: 2
+  DifficultyCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.6993003
+      value: 0.5034807
+      inSlope: 1.4242843
+      outSlope: 1.4242843
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99591064
+      value: 1.0117378
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1532569697
 Transform:
   m_ObjectHideFlags: 0

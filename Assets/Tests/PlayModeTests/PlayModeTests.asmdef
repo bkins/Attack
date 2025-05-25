@@ -1,6 +1,17 @@
 {
     "name": "PlayModeTests",
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ]
+    "rootNamespace": "Assets",
+    "references": [
+        "GUID:0acc523941302664db1f4e527237feb3",
+        "GUID:dab066339a8896b4ea0650a6fbd456e1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

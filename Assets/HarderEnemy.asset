@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a9576751a4e1f84eabfe93de4ce8a94, type: 3}
+  m_Name: HarderEnemy
+  m_EditorClassIdentifier: 
+  Prefab: {fileID: 8286401857196373409, guid: 1afe9de0040e0c34389d1c6cd39bc1e2, type: 3}
+  SpawnInterval: 2
+  MoveSpeed: 10
+  SpawnWeight: 1

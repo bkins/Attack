@@ -1,97 +1,61 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
     public class EnemySpawner : MonoBehaviour
     {
-        public GameObject EnemyPrefab;
-        public Transform  Player;
+        public List<EnemyTypeSo> EnemyTypes = new();
+        public Transform         Player;
+        public float             SpawnRadius      = 10f;
+        public float             MinSpawnDistance = 3f;
+        public AnimationCurve    DifficultyCurve;
 
-        public float SpawnInterval    = 5f;
-        public float SpawnRadius      = 10f;
-        public float MinSpawnDistance = 3f;
-        public float MoveSpeed        = 2f;
+        private float       _elapsedTime = 0f;
+        private List<float> _timers;
 
-        private float _timer;
+        private void Start()
+        {
+            
+        }
+        private void Awake()
+        {
+            //Safer to initialize `_timers` here, in case any other script's Start() references this spawner and expects `_timers` to be ready.
+            _timers = new List<float>(new float[EnemyTypes.Count]);
+        }
 
         private void Update()
         {
-            _timer += Time.deltaTime;
+            _elapsedTime += Time.deltaTime;
+            var difficultyMultiplier = Mathf.Clamp(DifficultyCurve.Evaluate(_elapsedTime), 0.1f, 5f);
 
-            if ( ! (_timer >= SpawnInterval)) return;
-
-            _timer = 0f;
-            SpawnEnemy();
-
-            ApplyEnemyIntelligence();
-
-        }
-
-        private void ApplyEnemyIntelligence()
-        {
-            if (GameObject.FindGameObjectWithTag("Player") is not GameObject player) return;
-
-            Vector3 direction = (player.transform.position - transform.position).normalized;
-            transform.position += direction * MoveSpeed * Time.deltaTime;
-        }
-
-        private void SpawnEnemy()
-        {
-            if (EnemyPrefab == null 
-            || Player == null)
+            for (var i = 0; i < EnemyTypes.Count; i++)
             {
-                Debug.LogWarning("Missing reference(s) in EnemySpawner.");
-                return;
-            }
+                _timers[i] += Time.deltaTime;
+                var scaledInterval = EnemyTypes[i].SpawnInterval / difficultyMultiplier;
 
+                if (!(_timers[i] >= scaledInterval)) continue;
+                
+                _timers[i] = 0f;
+                SpawnEnemy(EnemyTypes[i]);
+            }
+        }
+
+        private void SpawnEnemy(EnemyTypeSo enemyType)
+        {
             Vector3 spawnPosition;
             do
             {
-                //TODO: Test and tweak this 
-                //OR
-                //TODO: See commented out code below for another way to do this.  Which is better?
-
-                // Random position in a circle around the player
                 var randomCircle = Random.insideUnitCircle * SpawnRadius;
-
-                spawnPosition = Player.position + new Vector3(randomCircle.x
-                                                            , 0
-                                                            , randomCircle.y);
+                spawnPosition = Player.position + new Vector3(randomCircle.x, 0, randomCircle.y);
             }
             while (Vector3.Distance(spawnPosition, Player.position) < MinSpawnDistance);
 
-            Instantiate(EnemyPrefab
-                      , spawnPosition
-                      , Quaternion.identity);
+            var enemy = Instantiate(enemyType.Prefab, spawnPosition, Quaternion.identity);
+
+            var foundAi = enemy.GetComponent<EnemyAi>();
+
+            if (foundAi) foundAi.Speed = enemyType.MoveSpeed;
         }
     }
 }
-/*
- *using UnityEngine;
-   using System.Collections;
-   
-   public class EnemySpawner : MonoBehaviour
-   {
-       public GameObject enemyPrefab;
-       public Transform player;
-       public float spawnInterval = 3f;
-       public float spawnRadius = 10f;
-   
-       void Start()
-       {
-           StartCoroutine(SpawnEnemies());
-       }
-   
-       IEnumerator SpawnEnemies()
-       {
-           while (true)
-           {
-               yield return new WaitForSeconds(spawnInterval);
-               Vector3 spawnPos = player.position + Random.insideUnitSphere * spawnRadius;
-               spawnPos.y = player.position.y; // Keep enemy on the same horizontal plane
-               Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-           }
-       }
-   }
-   
- */
